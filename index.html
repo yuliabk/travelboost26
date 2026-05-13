@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TRAVEL BOOSTER - עזר לימוד אינטראקטיבי</title>
+<style>
+:root { --navy:#17324D; --teal:#0F766E; --soft:#F3F7FA; --yellow:#FFF4CC; --green:#E7F6EC; --red:#FCE8E6; --border:#D0D5DD; }
+* { box-sizing:border-box; }
+body { margin:0; font-family: Arial, sans-serif; background:linear-gradient(180deg,#f7fbff,#ffffff); color:#1f2937; }
+header { background:var(--navy); color:white; padding:32px 22px; text-align:center; }
+header h1 { margin:0; font-size:34px; letter-spacing:.5px; }
+header p { margin:10px auto 0; max-width:850px; font-size:18px; line-height:1.55; }
+main { max-width:1050px; margin:0 auto; padding:24px 16px 60px; }
+.nav { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin:18px 0 24px; }
+.nav a { background:white; border:1px solid var(--border); color:var(--navy); text-decoration:none; padding:10px 14px; border-radius:999px; font-weight:700; box-shadow:0 2px 8px rgba(16,24,40,.06); }
+.panel { background:white; border:1px solid var(--border); border-radius:22px; padding:22px; margin:18px 0; box-shadow:0 8px 28px rgba(16,24,40,.07); }
+h2 { color:var(--navy); margin-top:0; font-size:26px; }
+h3 { color:var(--teal); margin-top:0; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
+.step { border:1px solid var(--border); border-radius:18px; padding:16px; background:var(--soft); }
+.step b { color:var(--navy); display:block; margin-bottom:8px; }
+.cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; }
+.card { min-height:130px; border:1px solid var(--border); border-radius:20px; background:white; padding:18px; cursor:pointer; box-shadow:0 4px 18px rgba(16,24,40,.06); font-size:18px; font-weight:700; color:var(--navy); position:relative; transition:.2s; }
+.card .back { display:none; font-size:15px; font-weight:400; color:#344054; line-height:1.45; }
+.card.flipped { background:var(--green); }
+.card.flipped .front { display:none; }
+.card.flipped .back { display:block; }
+.check { display:block; padding:11px 12px; margin:8px 0; border:1px solid var(--border); border-radius:14px; background:#fff; }
+.check input { width:18px; height:18px; vertical-align:middle; }
+.progress-wrap { position:sticky; top:0; z-index:10; background:#ffffffdd; backdrop-filter:blur(8px); border:1px solid var(--border); border-radius:16px; padding:12px; margin-bottom:16px; }
+.progressbar { width:100%; height:16px; background:#eaecf0; border-radius:999px; overflow:hidden; }
+#bar { height:100%; width:0%; background:var(--teal); transition:.25s; }
+#quizBox { display:grid; gap:14px; }
+.question { border:1px solid var(--border); border-radius:18px; padding:16px; background:#fff; }
+.question p { font-weight:700; color:var(--navy); margin-top:0; }
+.option { display:block; margin:8px 0; padding:10px; border:1px solid var(--border); border-radius:12px; cursor:pointer; }
+.option:hover { background:var(--soft); }
+.result { margin-top:8px; padding:10px; border-radius:12px; display:none; }
+.correct { background:var(--green); }
+.wrong { background:var(--red); }
+button.primary { border:0; border-radius:999px; background:var(--teal); color:white; padding:12px 18px; font-size:16px; font-weight:700; cursor:pointer; }
+button.secondary { border:1px solid var(--border); border-radius:999px; background:white; color:var(--navy); padding:10px 16px; font-size:15px; font-weight:700; cursor:pointer; }
+textarea { width:100%; min-height:90px; border:1px solid var(--border); border-radius:14px; padding:12px; font-family:Arial, sans-serif; font-size:16px; direction:rtl; }
+.score { font-size:22px; font-weight:800; color:var(--navy); margin-top:14px; }
+.badge { display:inline-block; background:var(--yellow); border:1px solid #f2c94c; padding:6px 10px; border-radius:999px; font-weight:700; }
+@media print { .nav,.progress-wrap,button { display:none; } body { background:white; } .panel { box-shadow:none; page-break-inside:avoid; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>TRAVEL BOOSTER</h1>
+  <p>עזר לימוד אינטראקטיבי למפגשים 2-3: דוקט, טיסות, מלונות, רכב, קרוז, העברות, שינוי וביטול שוברים.</p>
+</header>
+<main>
+  <div class="progress-wrap"><b>התקדמות בצ׳ק ליסטים: <span id="pct">0%</span></b><div class="progressbar"><div id="bar"></div></div></div>
+  <nav class="nav"><a href="#map">מפת תהליך</a><a href="#cards">כרטיסיות</a><a href="#checklists">תרגול</a><a href="#quiz">חידון</a><a href="#reflect">רפלקציה</a></nav>
+
+  <section class="panel" id="map">
+    <h2>1. מפת תהליך העבודה</h2>
+    <div class="grid">
+      <div class="step"><b>1. זיהוי לקוח/דוקט</b>לקוח חוזר, דוקט קיים או פתיחת דוקט חדש.</div>
+      <div class="step"><b>2. בניית מסלול</b>תאריכים, יעדים, נוסעים, ספקים וסוגי שירותים.</div>
+      <div class="step"><b>3. הזנת שירותים</b>טיסה, מלון, רכב, קרוז, העברה או ביטוח כשוברים נפרדים.</div>
+      <div class="step"><b>4. חישוב מחירים</b>מחיר נטו, מסים, MU, מטבע, מחיר לאדם/לחדר/לילה/יום.</div>
+      <div class="step"><b>5. בדיקה לפני הפקה</b>שמות, תאריכים, נתיב, ספק, מטבע וסכומים.</div>
+      <div class="step"><b>6. שינוי/ביטול</b>מתרגלים שינוי וביטול בלי לפגוע ברצף הדוקט.</div>
+    </div>
+  </section>
+
+  <section class="panel" id="cards">
+    <h2>2. כרטיסיות הבנה</h2>
+    <p><span class="badge">לחצי על כרטיסייה כדי לחשוף תשובה</span></p>
+    <div class="cards"><button class="card" onclick="flip(this)"><span class="front">דוקט</span><span class="back">תיק ההזמנה המרכזי שמאגד את כל השירותים של הלקוח.</span></button><button class="card" onclick="flip(this)"><span class="front">שובר</span><span class="back">מסמך שירות ספציפי בתוך הדוקט: טיסה, מלון, רכב, קרוז, העברה או ביטוח.</span></button><button class="card" onclick="flip(this)"><span class="front">MU</span><span class="back">Markup - תוספת למחיר נטו, למשל 10%.</span></button><button class="card" onclick="flip(this)"><span class="front">p.p</span><span class="back">מחיר לאדם.</span></button><button class="card" onclick="flip(this)"><span class="front">p.r</span><span class="back">מחיר לחדר.</span></button><button class="card" onclick="flip(this)"><span class="front">p.n</span><span class="back">מחיר ללילה.</span></button><button class="card" onclick="flip(this)"><span class="front">ספק</span><span class="back">הגורם שממנו נרכש השירות, למשל TBO, אופרן, סנורמה או RIDER.</span></button><button class="card" onclick="flip(this)"><span class="front">בדיקה סופית</span><span class="back">שמות, תאריכים, מטבע, ספק, מחיר בסיס, מסים, MU וסטטוס.</span></button></div>
+  </section>
+
+  <section id="checklists">
+    <h2>3. תרגול אינטראקטיבי לפי תרחישים</h2>
+    <section class="panel"><h3>תרחיש 1 - שמעוני</h3><label class="check"><input type="checkbox" onchange="updateProgress()"> פתחתי דוקט לזוג שמעוני</label><label class="check"><input type="checkbox" onchange="updateProgress()"> הזנתי טיסות TLV-FRA ו-MUC-TLV</label><label class="check"><input type="checkbox" onchange="updateProgress()"> חישבתי מחיר טיסה לאדם: 1580 USD + 320 USD</label><label class="check"><input type="checkbox" onchange="updateProgress()"> הפקתי מלון Leonardo Frankfurt עם MU 10%</label><label class="check"><input type="checkbox" onchange="updateProgress()"> הפקתי רכב Mercedes מספק אופרן</label><label class="check"><input type="checkbox" onchange="updateProgress()"> הפקתי מלון Kempinski Munich עם MU 10%</label><label class="check"><input type="checkbox" onchange="updateProgress()"> ביצעתי בדיקת שמות, תאריכים ומטבעות</label></section><section class="panel"><h3>תרחיש 2 - שמואלי</h3><label class="check"><input type="checkbox" onchange="updateProgress()"> הזנתי 2 מבוגרים + ילד בן 10</label><label class="check"><input type="checkbox" onchange="updateProgress()"> המצאתי פרטי טיסה עקב הנחיית התרגיל</label><label class="check"><input type="checkbox" onchange="updateProgress()"> חישבתי מחיר מבוגר ומחיר ילד בנפרד</label><label class="check"><input type="checkbox" onchange="updateProgress()"> הפקתי מלון Catalonia עם TBO ו-MU 10%</label><label class="check"><input type="checkbox" onchange="updateProgress()"> הפקתי רכב מאופרן</label><label class="check"><input type="checkbox" onchange="updateProgress()"> הפקתי קרוז מספק סנורמה</label><label class="check"><input type="checkbox" onchange="updateProgress()"> הפקתי העברה מספק RIDER עם MU 10%</label><label class="check"><input type="checkbox" onchange="updateProgress()"> בדקתי שאין חפיפה שגויה בין מלון, רכב וקרוז</label></section>
+  </section>
+
+  <section class="panel" id="quiz">
+    <h2>4. חידון מסכם</h2>
+    <p>בחרי תשובה לכל שאלה ולחצי בדיקה.</p>
+    <div id="quizBox"></div>
+    <button class="primary" onclick="gradeQuiz()">בדיקת חידון</button>
+    <button class="secondary" onclick="resetQuiz()">איפוס</button>
+    <div id="score" class="score"></div>
+  </section>
+
+  <section class="panel" id="reflect">
+    <h2>5. רפלקציה קצרה</h2>
+    <h3>מה עדיין לא ברור לי?</h3><textarea placeholder="כתבי כאן..."></textarea>
+    <h3>איזו טעות אני רוצה למנוע בפעם הבאה?</h3><textarea placeholder="כתבי כאן..."></textarea>
+    <h3>באיזה סוג שובר אני צריכה עוד תרגול?</h3><textarea placeholder="כתבי כאן..."></textarea>
+  </section>
+</main>
+<script>
+const quiz = [{"q": "מהו דוקט?", "options": ["שובר טיסה בלבד", "תיק הזמנה מרכזי של הלקוח", "מסמך ביטוח בלבד"], "answer": 1, "explain": "דוקט מרכז את ההזמנה, והשוברים הם השירותים שבתוכו."}, {"q": "מה חייבים לבדוק לפני הפקת שובר טיסה?", "options": ["רק מחיר סופי", "שמות, נתיב, תאריכים, שעות, מחיר ומסים", "רק חברת תעופה"], "answer": 1, "explain": "שובר טיסה רגיש במיוחד לשמות, תאריכים, שעות ונתיבי טיסה."}, {"q": "p.p פירושו", "options": ["לאדם", "לחדר", "ללילה"], "answer": 0, "explain": "p.p = per person, כלומר מחיר לאדם."}, {"q": "p.r פירושו", "options": ["לאדם", "לחדר", "ללילה"], "answer": 1, "explain": "p.r = per room, כלומר מחיר לחדר."}, {"q": "p.n פירושו", "options": ["ללילה", "ליום", "לנוסע"], "answer": 0, "explain": "p.n = per night, כלומר מחיר ללילה."}, {"q": "מהו MU?", "options": ["תוספת למחיר נטו", "מס נמל", "מספר טיסה"], "answer": 0, "explain": "MU הוא Markup - תוספת למחיר נטו לפי הנחיית התרגיל."}, {"q": "בתרגיל שמעוני, אילו שירותים מופיעים?", "options": ["טיסה בלבד", "טיסה, מלונות ורכב", "קרוז וביטוח בלבד"], "answer": 1, "explain": "יש טיסה, מלון בפרנקפורט, רכב ומלון במינכן."}, {"q": "בתרגיל שמואלי, כמה סוגי שוברים יש לתרגל?", "options": ["3", "4", "5"], "answer": 2, "explain": "טיסה, מלון, רכב, קרוז והעברה."}, {"q": "מה חשוב לבדוק כשיש ילד בהזמנה?", "options": ["אין השפעה", "מחיר ילד, מסים ותנאי חינם/חיוב", "רק שם המשפחה"], "answer": 1, "explain": "בתרגיל הקרוז הילד חינם במחיר החדר אך משלם מסי נמל וטיפים."}, {"q": "מה עושים לפני ביטול שובר?", "options": ["מבטלים מיד", "בודקים איזה שובר מבטלים ומה ההשפעה על הדוקט", "פותחים לקוח חדש"], "answer": 1, "explain": "ביטול שובר יכול להשפיע על רצף השירותים והמחירים בדוקט."}];
+function flip(el){ el.classList.toggle('flipped'); }
+function updateProgress(){
+  const boxes=[...document.querySelectorAll('input[type="checkbox"]')];
+  const done=boxes.filter(b=>b.checked).length;
+  const pct=boxes.length?Math.round(done/boxes.length*100):0;
+  document.getElementById('pct').textContent=pct+'%';
+  document.getElementById('bar').style.width=pct+'%';
+}
+function renderQuiz(){
+  const box=document.getElementById('quizBox');
+  box.innerHTML='';
+  quiz.forEach((q,i)=>{
+    const div=document.createElement('div'); div.className='question';
+    div.innerHTML='<p>'+(i+1)+'. '+q.q+'</p>' + q.options.map((o,j)=>`<label class="option"><input type="radio" name="q${i}" value="${j}"> ${o}</label>`).join('') + `<div class="result" id="r${i}"></div>`;
+    box.appendChild(div);
+  });
+}
+function gradeQuiz(){
+  let score=0;
+  quiz.forEach((q,i)=>{
+    const chosen=document.querySelector(`input[name="q${i}"]:checked`);
+    const r=document.getElementById('r'+i);
+    r.style.display='block';
+    if(chosen && Number(chosen.value)===q.answer){ score++; r.className='result correct'; r.textContent='נכון. '+q.explain; }
+    else { r.className='result wrong'; r.textContent='לא מדויק. התשובה הנכונה: '+q.options[q.answer]+'. '+q.explain; }
+  });
+  document.getElementById('score').textContent='ציון: '+score+' מתוך '+quiz.length;
+}
+function resetQuiz(){
+  document.querySelectorAll('input[type="radio"]').forEach(r=>r.checked=false);
+  document.querySelectorAll('.result').forEach(r=>{r.style.display='none'; r.textContent='';});
+  document.getElementById('score').textContent='';
+}
+renderQuiz(); updateProgress();
+</script>
+</body>
+</html>
